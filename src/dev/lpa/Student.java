@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-record Purchase (String courseID, int studentId, double price, int yr, int dayOfYear){
+record Course(String courseId, String name, String subject) {}
 
-    // cool
-    public LocalDate purchaseDate(){
+record Purchase (String courseId, int studentId, double price, int yr, int dayOfYear) {
+
+    public LocalDate purchaseDate() {
         return LocalDate.ofYearDay(yr, dayOfYear);
     }
+
 }
 
 public class Student {
@@ -21,14 +23,12 @@ public class Student {
     private int id;
     private List<Course> courseList;
 
-    // Multiple courses
     public Student(String name, List<Course> courseList) {
         this.name = name;
         this.courseList = courseList;
-        id=lastId++;
+        id = lastId++;
     }
 
-    // Just one course
     public Student(String name, Course course) {
         this(name, new ArrayList<>(List.of(course)));
     }
@@ -41,16 +41,15 @@ public class Student {
         return id;
     }
 
-
-    public void addCourse (Course course){
+    public void addCourse(Course course) {
         courseList.add(course);
     }
 
     @Override
     public String toString() {
+
         String[] courseNames = new String[courseList.size()];
         Arrays.setAll(courseNames, i -> courseList.get(i).name());
-
-        return "[%d] : %s".formatted(id, String.join(",", courseNames));
+        return "[%d] : %s".formatted(id, String.join(", ", courseNames));
     }
 }
