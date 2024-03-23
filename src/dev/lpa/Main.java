@@ -44,6 +44,18 @@ public class Main {
         }
 
         datedPurchases.forEach((key, value) -> System.out.println(key + ": " + value));
+
+
+        // datedPurchases is stored and sorted by, well, date
+        int currentYear = LocalDate.now().getYear();
+
+        LocalDate firstDay = LocalDate.ofYearDay(currentYear, 1);
+        LocalDate week1 = firstDay.plusDays(7);
+
+        // All the purchases in week 1
+        Map<LocalDate,List<Purchase>> week1Purchases = datedPurchases.headMap(week1);
+        // All purchases in week 2, hence tailMap
+        Map<LocalDate,List<Purchase>> week2Purchases = datedPurchases.tailMap(week1);
     }
 
     private static void addPurchase(String name, Course course, double price) {
