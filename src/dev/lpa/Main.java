@@ -64,6 +64,51 @@ public class Main {
         System.out.println("-".repeat(30));
         week2Purchases.forEach((key, value) -> System.out.println(key + ": " + value));
 
+        displayStats(1, week1Purchases);
+        displayStats(2, week2Purchases);
+
+
+        System.out.println("-".repeat(30));
+
+        LocalDate lastDate = datedPurchases.lastKey();
+        var previousEntry = datedPurchases.lastEntry();
+
+        // keep looping until previousEntry is null
+        while(previousEntry != null){
+            List<Purchase> lastDaysData = previousEntry.getValue();
+            System.out.println(lastDate + " purchases : " + lastDaysData.size());
+
+            LocalDate prevDate = datedPurchases.lowerKey(lastDate);
+            previousEntry = datedPurchases.lowerEntry(lastDate);
+
+            lastDate = prevDate;
+        }
+
+        System.out.println("-".repeat(30));
+
+        // Reverse order - in order of date now ( original list was backwards order, started at latest date)
+        var reversed = datedPurchases.descendingMap();
+
+        // The earliest date
+        LocalDate firstDate = reversed.firstKey();
+        // Next date
+//        var nextEntry = reversed.firstEntry();
+        var nextEntry = reversed.pollFirstEntry();
+
+        while (nextEntry != null){
+            List<Purchase> lastDaysData = nextEntry.getValue();
+            System.out.println(firstDate + " purchases : " + lastDaysData.size());
+
+            LocalDate nextDate = reversed.higherKey(firstDate);
+//            nextEntry = reversed.higherEntry(firstDate);
+            nextEntry = reversed.pollFirstEntry();
+            firstDate=nextDate;
+        }
+
+        System.out.println("-".repeat(30));
+
+        // Original list
+        datedPurchases.forEach((key, value) -> System.out.println(key + ": " + value));
 
     }
 
